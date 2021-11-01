@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"><html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>校园二手交易平台</title>
+    <!-- 引入layui css -->
+    <link rel="stylesheet" type="text/css" href="https://www.layuicdn.com/layui-v2.5.6/css/layui.css" />
+    <!-- 引入layui js -->
+    <script src="https://www.layuicdn.com/layui-v2.5.6/layui.js"></script>
+
+    <link rel="stylesheet" th:href="@{/layui/css/layui.js}">
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+
+    <link rel="stylesheet" th:href="@{layui/user.js}">
+    <link rel="stylesheet" th:href="@{layui/css/user.css}">
+</head>
+
+<body>
+<div class="web-shop">
+    <!-- 头部导航条 -->
+    <div class="header">
+        <div class="container">
+            <ul class="nav">
+                <li>
+                    <a th:href="@{/}">湖南工商大学</a>
+                </li>
+                <li >
+                    <a th:if="!${session.u_Account}" href="/login">登录</a>
+                </li>
+                <li>
+                    <a th:if="!${session.u_Account}" href="/regists/init">注册</a>
+                </li>
+
+            </ul>
+            <ul class="nav">
+
+                <li>
+                    <a th:href="@{/admin/shoppingCarInit}" class="arrow">购物车</a>
+                </li>
+                <li>
+                    <a th:href="@{/admin/userInfo}" class="arrow">用户中心</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+
+
+        <div class="layui-layout layui-layout-admin">
+            <div class="layui-side layui-bg-black">
+                <div class="layui-side-scroll">
+                    <ul class="layui-nav layui-nav-tree " lay-filter="test">
+                        <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
+                        <li class="layui-nav-item">
+                            <a href="javascript:;">书</a>
+                            <dl class="layui-nav-child">
+                                <dd><a href="/search?search=书">教材图书</a></dd>
+                            </dl>
+                        </li>
+                        <li class="layui-nav-item">
+                            <a href="javascript:;">电脑</a>
+                            <dl class="layui-nav-child">
+                                <dd><a href="/search?search=电脑">笔记本</a> </dd>
+                                <dd><a href="/search?search=电脑">台式电脑</a> </dd>
+                                <dd><a href="/search?search=电脑">平板电脑</a></dd>
+                            </dl>
+                        </li>
+                        <li class="layui-nav-item">
+                            <a href="javascript:;">生活用品</a>
+                            <dl class="layui-nav-child">
+                                <a href="/search?search=手表">手表</a>
+                                <a href="/search?search=眼镜">眼镜</a>
+                                <a href="/search?search=伞">伞</a>
+                            </dl>
+                        </li>
+                        <li class="layui-nav-item">
+                            <a href="javascript:;">运动用品</a>
+                            <dl class="layui-nav-child">
+                                <a href="/search?search=网球">网球</a>
+                                <a href="/search?search=网球拍">网球拍</a>
+                                <a href="/search?search=乒乓球拍">乒乓球拍</a>
+                            </dl>
+                        </li>
+                        <li class="layui-nav-item">
+                            <a href="javascript:;">鞋类</a>
+                            <dl class="layui-nav-child">
+                                <a href="/search?search=足球鞋">足球鞋</a>
+                                <a href="/search?search=篮球鞋">篮球鞋</a>
+                                <a href="/search?search=板鞋">板鞋</a>
+                            </dl>
+                        </li>
+                        <li class="layui-nav-item">
+                            <a href="javascript:;">女士专区</a>
+                            <dl class="layui-nav-child">
+                                <a href="/search?search=包">手提包</a>
+                                <a href="/search?search=女生手表">女士手表</a>
+                                <a href="女装/search?search=">女装</a>
+                            </dl>
+                        </li>
+                        <li class="layui-nav-item">
+                            <a href="javascript:;">大型家电</a>
+                            <dl class="layui-nav-child">
+                                <a href="/search?search=冰箱">冰箱</a>
+                                <a href="/search?search=沙发">沙发</a>
+                                <a href="/search?search=旅游箱">旅游箱</a>
+                            </dl>
+                        </li>
+                        <li class="layui-nav-item">
+                            <a href="javascript:;">运动用品</a>
+                            <dl class="layui-nav-child">
+                                <a href="/search?search=网球">网球</a>
+                                <a href="/search?search=网球拍">网球拍</a>
+                                <a href="/search?search=乒乓球拍">乒乓球拍</a>
+                            </dl>
+                        </li>
+
+                        <li class="layui-nav-item">
+                            <a href="javascript:;">手机数码</a>
+                            <dl class="layui-nav-child">
+                                <a href="/search?search=手机">手机</a>
+                                <a href="/search?search=相机">相机</a>
+                                <a href="/search?search=耳机">耳机</a>
+                                <a href="/search?search=屏幕">屏幕</a>
+                                <a href="/search?search=键盘">键盘</a>
+                                <a href="/search?search=鼠标">鼠标</a>
+                            </dl>
+                        </li>
+                        <li class="layui-nav-item">
+                            <a href="javascript:;">其余</a>
+                            <dl class="layui-nav-child">
+                                <a href="/search?search=专辑">音乐专辑</a>
+                                <a href="/search?search=手办">手办</a>
+                                <a href="/search?search=背包">背包</a>
+                            </dl>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="layui-body">
+                <div class="body-1">
+                    <!-- 搜索框 -->
+                    <div class="search">
+                        <div class="search-logo">
+                        </div>
+                        <div class="search-box">
+                            <ul class="search-tab">
+                                <a href="javascript:;" class="choose1">校园</a>
+                                <a href="javascript:;">二手</a>
+                                <a href="javascript:;">交易</a>
+                            </ul>
+                            <form class="search-input" action="search">
+                                <input class="box1" type="text" name="search">
+                                <button class="btn" type="submit">搜索</button>
+                            </form>
+
+                            <div class="search-choose">
+                                <a href="">热门商品：</a>
+                                <a href="/search?search=书">书籍</a>
+                                <a href="/search?search=电动车">小绵羊</a>
+                                <a href="/search?search=自行车">bike</a>
+                                <a href="/search?search=试卷">往年期末试卷</a>
+                                <a href="/search?search=衣服">全新衣服</a>
+                                <a href="/search?search=床上桌">迷你书桌</a>
+                                <a href="/search?search=电脑">笔记本</a>
+
+                                <a href="/search?search=耳机">蓝牙耳机</a>
+                            </div>
+                        </div>
+                        <div class="search-code">
+                            <a href="javascript:;">
+                                <img src="./img/jnh.png" alt="">
+                            </a>
+                        </div>
+                    </div>
+                    <!-- 导航栏 -->
+                    <ul class="nav">
+                        <li class="left-nav">其余服务</li>
+                        <li class="li"><a href="https://blog.csdn.net/qq_44816011?spm=1001.2101.3001.5343">作者简介</a></li>
+                        <li class="li"><a href="https://www.baidu.com">合作网站</a></li>
+                        <li class="li">|</li>
+                        <li class="li"><a href="" class="add_cart" lay-submit lay-filter="address">运营点详细地址</a></li>
+                        <li class="li"> <a href="/search?search=lucky">今日幸运物品</a></li>
+                        <li class="li">|</li>
+                        <li class="li">留言板</li>
+
+                    </ul>
+    <!--            &lt;!&ndash; 图片展示区 &ndash;&gt;-->
+    <!--            <div class="layui-body">-->
+    <!--                   <a href="#">-->
+    <!--                       <img th:src="@{/images/product/bggg.jpg}" style="width:700px;height: 500px;"alt="">-->
+    <!--                   </a>-->
+    <!--            </div>-->
+                    <!-- 商品栏 -->
+
+                    <div class="body-3">
+                        <h1 class="title-h1">
+                            <div class="icon"></div>热卖单品
+                        </h1>
+                        <div class="content">
+                            <div class="item"  th:each="p:${productList.list}">
+                                <a th:href="@{/goodsDetail(pid=${p.getP_Id()})}">
+                                    <img th:src="${p.getP_href()}"  style="width: 150px;height: 150px;"/>
+                                </a>
+                                <p class="line-limit-length"> <a href="#" th:text="${p.getP_Title()}"></a></p>
+                                <span th:text="${p.getP_Price()}"></span>
+                            </div>
+                        </div>
+
+                        <div style="text-align:center;font-size: 60px;">
+                            <a th:href="@{/showAll(pageNo=${productList.firstPage})}">首页</a>
+
+                            <a th:if="${productList.hasPreviousPage}" th:href="@{/showAll(pageNo=${productList.prePage})}">上一页</a>
+
+                            <a th:if="${productList.hasNextPage}" th:href="@{/showAll(pageNo=${productList.nextPage})}">下一页</a>
+
+                            <a th:href="@{/showAll(pageNo=${productList.lastPage})}">末页</a>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="layui-collapse" lay-accordion style="margin-bottom: 50px">
+                        <div class="layui-colla-item" style="text-align: center;">
+                            <h2 class="layui-colla-title">@ 2021.10.29 其它合作联系软件1801-lz</h2>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        </div>
+    </div>
+
+
+
+<script>
+    layui.use(['table','form','layer'],function (){
+        var $ = layui.$;
+        var form = layui.form;
+        var table = layui.table;
+        var layer = layui.layer;
+
+        form.on('submit(address)',function (data) {
+            layer.open({
+                content: '北校区运营点 : A市B区xx街道</br>南校区贤德运营点 : A市C区xxx街道</br>南校区萃雅运营点 : A市C区xxx街道</br>南校区岭南运营点 : A市C区xxx街道' ,
+                area: ['454px','365px'],
+                title: false
+            })
+            return false;
+        });
+
+    });
+</script>
+</div>
+
+<script>
+    layui.use('element', function() {
+        var element = layui.element;
+    });
+</script>
+<script src= th:href="@{layui/css/user.css}"></script>
+
+</body>
+
+
+</html>
+
