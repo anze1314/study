@@ -66,4 +66,9 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
     public List<ProductCategory> selectFive() {
         return productCategoryMapper.selectFive();
     }
+
+    @Override
+    public void updateProduct(int  productCategoryId,int state) {
+        productCategoryMapper.updateProductCategory(productCategoryId,state);
+    }
 }

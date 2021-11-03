@@ -19,5 +19,6 @@ public interface ProductCategoryService {
     List<ProductCategory>selectProductCategorysByp_name1(String p_Name);
 
     List<ProductCategory>selectFive();
-
+    //更新状态
+    void updateProduct (int  productCategoryId,int state);
 }

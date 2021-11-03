@@ -76,9 +76,10 @@
 <script th:src="@{/layui/layui.js}"></script>
 
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs" lay-event="detial">订单状态</a>
+
     <a class="layui-btn layui-btn-xs" lay-event="edit">修改地址</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除订单</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">撤销订单</a>
+    <a class="layui-btn  layui-btn-xs" lay-event="over">完成订单</a>
 </script>
 
 <script>
@@ -153,7 +154,7 @@
                 });
             }else if(layEvent == 'del'){ // 删除订单
                 console.log(data);
-                layer.confirm('确定要删除吗？', function (){
+                layer.confirm('确定要撤销吗？', function (){
                    $.ajax({
                        url: 'deleteOrder',
                        type: 'POST',
@@ -171,6 +172,31 @@
                            layer.msg(res.msg);
                        }
                    });
+                    table.reload('reloadTest',{
+                        url: 'BuyOrderInfo',
+                        where: {}
+                    });
+                });
+            }else if(layEvent == 'over'){ // 完成订单
+                console.log(data);
+                layer.confirm('确定要完成订单了吗？', function (){
+                    $.ajax({
+                        url: 'overOrder',
+                        type: 'POST',
+                        contentType: "application/json;charset=utf-8",
+                        data: JSON.stringify(data),
+                        success: function (res){
+                            if(res.code === 200){
+                                tableIns.reload();
+                                layer.msg(res.msg);
+                            }else if(res.code === 500){
+                                layer.msg(res.msg);
+                            }
+                        },
+                        error: function (res){
+                            layer.msg(res.msg);
+                        }
+                    });
                     table.reload('reloadTest',{
                         url: 'BuyOrderInfo',
                         where: {}

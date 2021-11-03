@@ -205,6 +205,7 @@ public class ProductController {
         productCategory.setP_Name(p_Name);
         productCategory.setP_Price(p_Price);
         productCategory.setC_Id(c_Id);
+        productCategory.setP_state(0);
         productCategoryService.insertProductCategory(productCategory);
         if(productService.selectProductById(Integer.valueOf(productCategory.getP_Id()))!=null){
           return "admin/productadd";

@@ -13,6 +13,11 @@ public class ProductCategory {
     private Double p_Price;
     private String p_Des;
     private String p_href;
+    private int p_state;
+
+    public ProductCategory() {
+
+    }
 
     public String getP_href() {
         return p_href;
@@ -92,5 +97,13 @@ public class ProductCategory {
 
     public void setP_Title(String p_Title) {
         this.p_Title = p_Title;
+    }
+
+    public int getP_state() {
+        return p_state;
+    }
+
+    public void setP_state(int p_state) {
+        this.p_state = p_state;
     }
 }

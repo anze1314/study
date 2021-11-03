@@ -14,13 +14,16 @@ public class Product {
     private String p_Des;
     private String p_href;
     private String p_href1;
-    public Product(int p_Id, String p_Des, Date p_Date) {
+    private int p_state;
+
+    public Product(int p_Id, String p_Des, Date p_Date, int p_state) {
         this.p_Id = p_Id;
         this.p_Des = p_Des;
         this.p_Date = p_Date;
+        this.p_state = p_state;
     }
 
-    public Product(int p_Id, String p_Account, String p_Name, String p_Title,String p_Des, Double p_Price, Date p_Date) {
+    public Product(int p_Id, String p_Account, String p_Name, String p_Title, String p_Des, Double p_Price, Date p_Date, int p_state) {
         this.p_Id = p_Id;
         this.p_Account = p_Account;
         this.p_Name = p_Name;
@@ -28,6 +31,7 @@ public class Product {
         this.p_Price = p_Price;
         this.p_Des = p_Des;
         this.p_Date = p_Date;
+        this.p_state = p_state;
     }
 
     public Product() {
@@ -155,4 +159,11 @@ public class Product {
         this.p_Date = p_Date;
     }
 
+    public int getP_state() {
+        return p_state;
+    }
+
+    public void setP_state(int p_state) {
+        this.p_state = p_state;
+    }
 }

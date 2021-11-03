@@ -4,6 +4,7 @@ import com.team.springboot.pojo.Address;
 import com.team.springboot.pojo.BaseResponse;
 import com.team.springboot.pojo.Order;
 import com.team.springboot.service.OrderService;
+import com.team.springboot.service.ProductCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +24,8 @@ public class OrderController {
     @Autowired
     OrderService orderService;
 
+    @Autowired
+    ProductCategoryService productCategoryService;
     //订单状态修改转跳
     @RequestMapping("/OrderStatusInit")
     public String OrderStatusInit(){
@@ -152,21 +155,60 @@ public class OrderController {
             return baseResponse;
         }
 
-        if(o.getO_Status().equals("0")){// 卖家未发货，不能删除
+//        if(o.getO_Status().equals("0")){// 卖家未发货，不能删除
+//            baseResponse.setCode(500);
+//            baseResponse.setMsg("删除失败！尚未发货");
+//            return baseResponse;
+//        }else if(o.getO_Status().equals("1")){
+//            baseResponse.setCode(500);
+//            baseResponse.setMsg("删除失败！尚未收货");
+//            return baseResponse;
+//        }
+
+
+        productCategoryService.updateProduct(o.getO_ItemId(),0);
+        orderService.deleteOrderById(o);
+        baseResponse.setCode(200);
+        baseResponse.setMsg("撤销订单成功!下次谨慎购买哦！");
+        return baseResponse;
+    }
+    //完成订单
+    @RequestMapping("/overOrder")
+    @ResponseBody BaseResponse overOrder(@RequestBody Order o){
+        BaseResponse<Integer> baseResponse = new BaseResponse<>();
+
+        if(o == null){
             baseResponse.setCode(500);
-            baseResponse.setMsg("删除失败！尚未发货");
-            return baseResponse;
-        }else if(o.getO_Status().equals("1")){
-            baseResponse.setCode(500);
-            baseResponse.setMsg("删除失败！尚未收货");
+            baseResponse.setMsg("订单不存在，完成失败！");
             return baseResponse;
         }
 
-
-
+        productCategoryService.updateProduct(o.getO_ItemId(),2);
         orderService.deleteOrderById(o);
         baseResponse.setCode(200);
-        baseResponse.setMsg("删除成功!");
+        baseResponse.setMsg("恭喜您完成订单，下次继续哦！！");
+        return baseResponse;
+    }
+    //商家完成订单
+    @RequestMapping("/overOrderBySeller")
+    @ResponseBody BaseResponse overOrderBySeller(@RequestBody Order o){
+        BaseResponse<Integer> baseResponse = new BaseResponse<>();
+
+        if(o == null){
+            baseResponse.setCode(500);
+            baseResponse.setMsg("订单不存在，完成失败！");
+            return baseResponse;
+        }
+        if(o.getO_State() != 2){
+            baseResponse.setCode(500);
+            baseResponse.setMsg("买家还未完成订单,请耐心等待买家完成订单！");
+            return baseResponse;
+        }
+
+        productCategoryService.updateProduct(o.getO_ItemId(),2);
+        orderService.deleteOrderById(o);
+        baseResponse.setCode(200);
+        baseResponse.setMsg("恭喜您完成订单，下次继续哦！！");
         return baseResponse;
     }
     //订单状态更改

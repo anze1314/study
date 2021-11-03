@@ -11,13 +11,18 @@ public class Order {
     private String p_Title;
     private String o_Status;
     private String p_href;
-
+    private int  o_State; //商品状态
 //    @Override
 //    public String toString() {
 //        return " o_Id:" + this.getO_Id() + " o_ItemId:" + this.getO_ItemId() + " p_Title:" + this.getP_Title();
 //    }
 
-
+    public  int getO_State(){
+        return this.o_State;
+    }
+    public void setO_State(int o_State){
+        this.o_State = o_State;
+    }
     public Order() {
 
     }
