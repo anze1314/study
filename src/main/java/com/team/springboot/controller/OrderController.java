@@ -258,4 +258,16 @@ public class OrderController {
         baseResponse.setMsg("请求失败");
         return baseResponse;
     }
+
+    //商家完成订单
+    @RequestMapping("/advice")
+    public String advice(@RequestBody String thing){
+        BaseResponse<Integer> baseResponse = new BaseResponse<>();
+
+
+        baseResponse.setCode(200);
+
+        return "redirect:/";
+    }
+
 }

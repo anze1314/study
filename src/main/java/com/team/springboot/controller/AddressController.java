@@ -38,4 +38,15 @@ public class AddressController {
         baseResponse.setMsg("保存成功");
         return baseResponse;
     }
+    @RequestMapping("/addressSelect")
+    @ResponseBody
+    public Address addressSelect(@RequestBody String count, HttpSession session){
+        BaseResponse<Integer> baseResponse = new BaseResponse<Integer>();
+
+        String a_Account = (String) session.getAttribute("u_Account");
+
+        Address result = addressService.selectAddressAll(a_Account);
+
+        return  result;
+    }
 }

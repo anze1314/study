@@ -2,6 +2,7 @@ package com.team.springboot.controller;
 
 
 import com.team.springboot.pojo.BaseResponse;
+import com.team.springboot.service.AddressService;
 import com.team.springboot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +26,9 @@ import java.util.UUID;
 public class SignInController {
     @Autowired
     UserService userService;
+
+    @Autowired
+    AddressService addressService;
 
     @RequestMapping("/login")
     public String login() {
@@ -50,6 +54,7 @@ public class SignInController {
             session.setAttribute("u_Account",account);
             session.setAttribute("url", userService.selectUserById(account).getU_Url());
             session.setAttribute("name", userService.selectUserById(account).getU_Name());
+            session.setAttribute("address",addressService.selectAddressAll(account));
             return "redirect:/showAll";
         }
         else {

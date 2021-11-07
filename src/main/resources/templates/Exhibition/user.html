@@ -180,13 +180,13 @@
                     <!-- 导航栏 -->
                     <ul class="nav">
                         <li class="left-nav">其余服务</li>
-                        <li class="li"><a href="https://blog.csdn.net/qq_44816011?spm=1001.2101.3001.5343">作者简介</a></li>
+                        <li class="li"><a href="https://blog.csdn.net/qq_44816011?spm=1001.2101.3001.5343">作者简介</a> </li>
                         <li class="li"><a href="https://www.baidu.com">合作网站</a></li>
                         <li class="li">|</li>
-                        <li class="li"><a href="" class="add_cart" lay-submit lay-filter="address">运营点详细地址</a></li>
+                        <li class="li"><a href="" class="add_cart" lay-submit lay-filter="address">运营点详细地址</a> <i th:if="!${session.u_Account}">请先登录</i></li>
                         <li class="li"> <a href="/search?search=lucky">今日幸运物品</a></li>
                         <li class="li">|</li>
-                        <li class="li">留言板</li>
+                        <li class="li"><a href="" class="add_cart" lay-submit lay-filter="saysay">留言板</a> <i th:if="!${session.u_Account}">请先登录</i></li>
 
                     </ul>
     <!--            &lt;!&ndash; 图片展示区 &ndash;&gt;-->
@@ -235,9 +235,37 @@
         </div>
     </div>
 
+<div class="row col-sm-12" style="display:none;" id="show_div">
+    <form action="http://localhost:8090/admin/advice" method="post">
+        <div class="form-group">
+            <label class="col-sm-3 control-label" style="font-size: 20px;color: black">请输入您的宝贵意见：</label>
+            <div class="col-sm-8">
+                <input id="thing" name="thing" minlength="2" type="text" style="width: 300px;height: 200px;" required="" aria-required="true">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-4 col-sm-offset-3">
+                <button class="btn btn-primary" style=" width:100px;height:60px; border-radius:15px;text-align: center" type="submit" lay-submit lay-filter="go">提交</button>
+            </div>
+        </div>
+    </form>
 
+</div>
+
+<div class="row col-sm-12" style="display:none;" id="show_div2">
+
+    您所在的校园拥有下列运营点:</br>
+    <div th:if="${session.address.getA_Address1()}">
+        &nbsp;&nbsp;&nbsp;<p th:text="${session.address.getA_Address1()}"></p></br>
+        &nbsp;&nbsp;&nbsp;<p th:text="${session.address.getA_Address2()}"></p></br>
+        &nbsp;&nbsp;&nbsp;<p th:text="${session.address.getA_Address3()}"></p></br>
+        &nbsp;&nbsp;&nbsp;<p th:text="${session.address.getA_Address4()}"></p></br>
+    </div>
+</div>
 
 <script>
+
+
     layui.use(['table','form','layer'],function (){
         var $ = layui.$;
         var form = layui.form;
@@ -245,14 +273,36 @@
         var layer = layui.layer;
 
         form.on('submit(address)',function (data) {
+            // layer.open({
+            //      content: '北校区运营点 : A市B区xx街道</br>南校区贤德运营点 : A市C区xxx街道</br>南校区萃雅运营点 : A市C区xxx街道</br>南校区岭南运营点 : A市C区xxx街道' ,
+            //     area: ['454px','365px'],
+            //     title: false
+            // })
+            // return false;
             layer.open({
-                content: '北校区运营点 : A市B区xx街道</br>南校区贤德运营点 : A市C区xxx街道</br>南校区萃雅运营点 : A市C区xxx街道</br>南校区岭南运营点 : A市C区xxx街道' ,
+                type: 1,  //可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+                // title: ['我是标题', 'font-size:18px; color:orange;'],//数组第二项可以写任意css样式；如果你不想显示标题栏，你可以title: false
+                content: $('#show_div2'),
                 area: ['454px','365px'],
                 title: false
             })
             return false;
         });
+        form.on('submit(saysay)',function (data) {
+            layer.open({
+                type: 1,  //可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+               // title: ['我是标题', 'font-size:18px; color:orange;'],//数组第二项可以写任意css样式；如果你不想显示标题栏，你可以title: false
+                content: $('#show_div'),
+                area: ['454px','365px'],
+                title: false
+            })
+            return false;
 
+        });
+        form.on('submit(go)',function (data) {
+
+            layer.close(layer.index);
+        });
     });
 </script>
 </div>
