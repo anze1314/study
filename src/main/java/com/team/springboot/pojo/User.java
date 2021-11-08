@@ -1,6 +1,8 @@
 package com.team.springboot.pojo;
 
+import lombok.Data;
 
+@Data
 public class User {
     private String u_Account;
     private String u_Name;
@@ -9,6 +11,7 @@ public class User {
     private String u_Email;
     private String u_Sex;
     private String u_Url;
+    private String u_Level;
 
     public String getU_Url() {
         return u_Url;

@@ -52,6 +52,9 @@ public class SignInController {
 
         if(userService.selectUserById(account).getU_Password().equals(password)){
             session.setAttribute("u_Account",account);
+            if(userService.selectUserById(account).getU_Level() .equals("1")){
+                session.setAttribute("isadmin", "yes");
+            }
             session.setAttribute("url", userService.selectUserById(account).getU_Url());
             session.setAttribute("name", userService.selectUserById(account).getU_Name());
             session.setAttribute("address",addressService.selectAddressAll(account));

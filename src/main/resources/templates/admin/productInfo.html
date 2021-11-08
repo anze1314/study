@@ -20,7 +20,7 @@
         <!-- 头部区域（可配合layui已有的水平导航） -->
 
         <ul class="layui-nav layui-layout-left">
-            <li class="layui-nav-item"><a href="/admin/init">商品管理</a></li>
+            <li class="layui-nav-item"><a th:if="${session.isadmin}"  href="/admin/init">商品管理</a></li>
             <li class="layui-nav-item"><a href="/admin/shoppingCarInit">购物车管理</a></li>
             <li class="layui-nav-item">
                 <a href="javascript:;">订单管理</a>
@@ -48,24 +48,10 @@
         <div class="layui-side-scroll">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree"  lay-filter="test">
-                <li class="layui-nav-item layui-nav-itemed">
-                    <a class="" href="javascript:;">所有商品</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="javascript:;">列表一</a></dd>
-                        <dd><a href="javascript:;">列表二</a></dd>
-                        <dd><a href="javascript:;">列表三</a></dd>
-                        <dd><a href="">超链接</a></dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item">
-                    <a href="javascript:;">解决方案</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="javascript:;">列表一</a></dd>
-                        <dd><a href="javascript:;">列表二</a></dd>
-                        <dd><a href="">超链接</a></dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item"><a href="">云市场</a></li>
+
+                <li class="layui-nav-item"><a href="">广告位1</a></li>
+                <li class="layui-nav-item"><a href="">广告位2</a></li>
+                <li class="layui-nav-item"><a href="">广告位3</a></li>
                 <li class="layui-nav-item"><a th:href="@{/showAll}">返回前台</a></li>
             </ul>
         </div>

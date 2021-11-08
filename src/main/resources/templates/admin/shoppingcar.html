@@ -18,7 +18,7 @@
         <div class="layui-logo">校园二手物品后台</div>
         <!-- 头部区域（可配合layui已有的水平导航） -->
         <ul class="layui-nav layui-layout-left">
-            <li class="layui-nav-item"><a href="/admin/init">商品管理</a></li>
+            <li class="layui-nav-item"><a th:if="${session.isadmin}" href="/admin/init">商品管理</a></li>
             <li class="layui-nav-item"><a href="/admin/shoppingCarInit">购物车管理</a></li>
             <li class="layui-nav-item">
                 <a href="javascript:;">订单管理</a>
@@ -48,9 +48,9 @@
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree"  lay-filter="test">
 
-                <li class="layui-nav-item"><a href="">广告位招商</a></li>
-                <li class="layui-nav-item"><a href="">交流小论坛</a></li>
-                <li class="layui-nav-item"><a href="">云市场</a></li>
+                <li class="layui-nav-item"><a href="">广告位1</a></li>
+                <li class="layui-nav-item"><a href="">广告位2</a></li>
+                <li class="layui-nav-item"><a href="">广告位3</a></li>
                 <li class="layui-nav-item"><a th:href="@{/showAll}">返回前台</a></li>
             </ul>
         </div>
@@ -217,7 +217,7 @@
 
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
+        <button class="layui-btn layui-btn-sm" lay-event="add">发布商品</button>
     </div>
 </script>
 </body>
