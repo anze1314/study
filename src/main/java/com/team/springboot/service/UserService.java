@@ -24,4 +24,7 @@ public interface UserService {
     List<User>selectUserByIdrtlist(String u_Account);
     void updateHeadp(String url,String u_Account);
 
+    //获取管理员邮箱
+    String getToMail();
+
 }

@@ -5,7 +5,11 @@ import com.team.springboot.pojo.BaseResponse;
 import com.team.springboot.pojo.Order;
 import com.team.springboot.service.OrderService;
 import com.team.springboot.service.ProductCategoryService;
+import com.team.springboot.service.UserService;
+import com.team.springboot.utils.mailUtill;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,6 +19,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +29,10 @@ import java.util.List;
 public class OrderController {
     @Autowired
     OrderService orderService;
-
+    @Autowired
+    UserService userService;
+    @Autowired
+    private JavaMailSender javaMailSender;
     @Autowired
     ProductCategoryService productCategoryService;
     //订单状态修改转跳
@@ -259,11 +268,25 @@ public class OrderController {
         return baseResponse;
     }
 
-    //商家完成订单
+    //留言板
     @RequestMapping("/advice")
     public String advice(@RequestBody String thing){
         BaseResponse<Integer> baseResponse = new BaseResponse<>();
+        try {
+            String decodeStr = URLDecoder.decode(thing, "utf-8");
 
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setSubject("留言");
+            message.setFrom("2383353360@qq.com");
+//            message.setTo("2383353360@qq.com");
+            //获取管理员邮箱
+            message.setTo(userService.getToMail());
+            message.setText(decodeStr);
+            javaMailSender.send(message);
+
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
 
         baseResponse.setCode(200);
 

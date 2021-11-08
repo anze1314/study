@@ -46,4 +46,6 @@ public interface userMapper {
     List<User>selectUserByIdrtlist(String u_Account);
     @Update("Update user set u_Url = #{0} where u_Account= #{1};")
     void updateHeadp(String url,String u_Account);
+    @Select("select u_Email from user where u_Level = 1")
+    String getToMaill();
 }

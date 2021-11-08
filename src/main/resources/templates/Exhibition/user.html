@@ -34,7 +34,9 @@
                 <li>
                     <a th:if="!${session.u_Account}" href="/regists/init">注册</a>
                 </li>
-
+                <li >
+                    <a th:if="${session.u_Account}" href="/login">退出登录</a>
+                </li>
             </ul>
             <ul class="nav">
 
@@ -255,12 +257,10 @@
 <div class="row col-sm-12" style="display:none;" id="show_div2">
 
     您所在的校园拥有下列运营点:</br>
-    <div th:if="${session.address.getA_Address1()}">
         &nbsp;&nbsp;&nbsp;<p th:text="${session.address.getA_Address1()}"></p></br>
         &nbsp;&nbsp;&nbsp;<p th:text="${session.address.getA_Address2()}"></p></br>
         &nbsp;&nbsp;&nbsp;<p th:text="${session.address.getA_Address3()}"></p></br>
         &nbsp;&nbsp;&nbsp;<p th:text="${session.address.getA_Address4()}"></p></br>
-    </div>
 </div>
 
 <script>

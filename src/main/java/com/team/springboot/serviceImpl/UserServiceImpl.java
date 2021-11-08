@@ -80,4 +80,9 @@ public class UserServiceImpl implements UserService {
     public void updateHeadp(String url, String u_Account) {
         usermapper.updateHeadp(url, u_Account);
     }
+
+    @Override
+    public String getToMail() {
+        return usermapper.getToMaill();
+    }
 }
