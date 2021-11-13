@@ -3,6 +3,7 @@ package com.team.springboot.controller;
 import com.team.springboot.pojo.Address;
 import com.team.springboot.pojo.BaseResponse;
 import com.team.springboot.pojo.Order;
+import com.team.springboot.service.AddressService;
 import com.team.springboot.service.OrderService;
 import com.team.springboot.service.ProductCategoryService;
 import com.team.springboot.service.UserService;
@@ -12,10 +13,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -31,6 +29,8 @@ public class OrderController {
     OrderService orderService;
     @Autowired
     UserService userService;
+    @Autowired
+    AddressService addressService;
     @Autowired
     private JavaMailSender javaMailSender;
     @Autowired
@@ -292,5 +292,17 @@ public class OrderController {
 
         return "redirect:/";
     }
-
+    //运营地址
+    @RequestMapping("/address")
+    @ResponseBody
+    public List<String> address(){
+        //if(account == null) return new ArrayList<>();
+        Address address = addressService.selectAddressAll("1001");
+        List<String> re = new ArrayList<>();
+        re.add(address.getA_Address1());
+        re.add(address.getA_Address2());
+        re.add(address.getA_Address3());
+        re.add(address.getA_Address4());
+        return re;
+    }
 }

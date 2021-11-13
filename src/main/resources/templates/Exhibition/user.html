@@ -35,7 +35,7 @@
                     <a th:if="!${session.u_Account}" href="/regists/init">注册</a>
                 </li>
                 <li >
-                    <a th:if="${session.u_Account}" href="/login">退出登录</a>
+                    <a th:if="${session.u_Account}" href="/admin/quit">退出登录</a>
                 </li>
             </ul>
             <ul class="nav">
@@ -185,7 +185,22 @@
                         <li class="li"><a href="https://blog.csdn.net/qq_44816011?spm=1001.2101.3001.5343">作者简介</a> </li>
                         <li class="li"><a href="https://www.baidu.com">合作网站</a></li>
                         <li class="li">|</li>
-                        <li class="li"><a href="" class="add_cart" lay-submit lay-filter="address">运营点详细地址</a> <i th:if="!${session.u_Account}">请先登录</i></li>
+                        <div id="app">
+                            <div class="row col-sm-12" style="display:none;" id="show_div2">
+
+                                您所在的校园拥有下列运营点:</br>
+                                <div id="" v-for="result in results">
+                                    <!--                                    <p th:text="${session.address.getA_Address1()}"></p></br>-->
+                                    <!--                                    <p th:text="${session.address.getA_Address2()}"></p></br>-->
+                                    <!--                                    <p th:text="${session.address.getA_Address3()}"></p></br>-->
+                                    <!--                                    <p th:text="${session.address.getA_Address4()}"></p></br>-->
+                                    <p > {{result}}}</p></br>
+
+                                </div>
+                            </div>
+                            <li class="li"><a href=""  @click.prevent="searchre" class="add_cart" lay-submit lay-filter="address">运营点详细地址</a> <i th:if="!${session.u_Account}">请先登录</i></li>
+                        </div>
+
                         <li class="li"> <a href="/search?search=lucky">今日幸运物品</a></li>
                         <li class="li">|</li>
                         <li class="li"><a href="" class="add_cart" lay-submit lay-filter="saysay">留言板</a> <i th:if="!${session.u_Account}">请先登录</i></li>
@@ -238,7 +253,8 @@
     </div>
 
 <div class="row col-sm-12" style="display:none;" id="show_div">
-    <form action="http://localhost:8090/admin/advice" method="post">
+
+    <form action="http://www.laz421.xyz:8090/admin/advice" method="post">
         <div class="form-group">
             <label class="col-sm-3 control-label" style="font-size: 20px;color: black">请输入您的宝贵意见：</label>
             <div class="col-sm-8">
@@ -247,22 +263,31 @@
         </div>
         <div class="form-group">
             <div class="col-sm-4 col-sm-offset-3">
-                <button class="btn btn-primary" style=" width:100px;height:60px; border-radius:15px;text-align: center" type="submit" lay-submit lay-filter="go">提交</button>
+                <button class="btn btn-primary"  style=" width:100px;height:60px; border-radius:15px;text-align: center"  type="submit" lay-submit lay-filter="go">提交</button>
             </div>
         </div>
     </form>
 
 </div>
 
-<div class="row col-sm-12" style="display:none;" id="show_div2">
+<script th:src="@{/vue/axios.min.js}"></script>
+<script th:src="@{/vue/vue.min.js}"></script>
+<script>
+    new Vue({
+        el:'#app',
+        data:{
+            results: [] //结果
+        },
+        methods:{
+            searchre(){
+                axios.get('/admin/address').then(response=>{
+                    this.results=response.data;
+                })
+            }
+        }
 
-    您所在的校园拥有下列运营点:</br>
-        &nbsp;&nbsp;&nbsp;<p th:text="${session.address.getA_Address1()}"></p></br>
-        &nbsp;&nbsp;&nbsp;<p th:text="${session.address.getA_Address2()}"></p></br>
-        &nbsp;&nbsp;&nbsp;<p th:text="${session.address.getA_Address3()}"></p></br>
-        &nbsp;&nbsp;&nbsp;<p th:text="${session.address.getA_Address4()}"></p></br>
-</div>
-
+    })
+</script>
 <script>
 
 
@@ -284,6 +309,7 @@
                 // title: ['我是标题', 'font-size:18px; color:orange;'],//数组第二项可以写任意css样式；如果你不想显示标题栏，你可以title: false
                 content: $('#show_div2'),
                 area: ['454px','365px'],
+                shade: 0,
                 title: false
             })
             return false;
