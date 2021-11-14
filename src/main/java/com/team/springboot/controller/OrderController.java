@@ -296,13 +296,16 @@ public class OrderController {
     @RequestMapping("/address")
     @ResponseBody
     public List<String> address(){
-        //if(account == null) return new ArrayList<>();
-        Address address = addressService.selectAddressAll("1001");
+
         List<String> re = new ArrayList<>();
+
+        Address address = addressService.selectAddressAll("1001");
+
         re.add(address.getA_Address1());
         re.add(address.getA_Address2());
         re.add(address.getA_Address3());
         re.add(address.getA_Address4());
+
         return re;
     }
 }
