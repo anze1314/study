@@ -27,4 +27,8 @@ public interface UserService {
     //获取管理员邮箱
     String getToMail();
 
+    //获取当前用户，区域是否有管理员
+    User haveAdmin(String org);
+
+
 }

@@ -12,7 +12,7 @@ public class User {
     private String u_Sex;
     private String u_Url;
     private String u_Level;
-
+    private  String u_orgcode;//区域编码
     public String getU_Url() {
         return u_Url;
     }

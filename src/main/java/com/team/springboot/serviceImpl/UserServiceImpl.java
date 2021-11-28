@@ -85,4 +85,9 @@ public class UserServiceImpl implements UserService {
     public String getToMail() {
         return usermapper.getToMaill();
     }
+
+    @Override
+    public User haveAdmin(String org) {
+        return usermapper.haveAdmin(org);
+    }
 }

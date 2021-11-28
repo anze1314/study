@@ -5,6 +5,7 @@ import com.team.springboot.pojo.BaseResponse;
 import com.team.springboot.service.AddressService;
 import com.team.springboot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +27,8 @@ import java.util.UUID;
 public class SignInController {
     @Autowired
     UserService userService;
-
+    @Autowired
+    private RedisTemplate redisTemplate;
     @Autowired
     AddressService addressService;
 
@@ -55,6 +57,13 @@ public class SignInController {
             if(userService.selectUserById(account).getU_Level() .equals("1")){
                 session.setAttribute("isadmin", "yes");
             }
+            if(userService.haveAdmin(userService.selectUserById(account).getU_orgcode()) == null){
+                session.setAttribute("orgadmin","1");
+            }
+            redisTemplate.opsForValue().set("level",userService.selectUserById(account).getU_Level());
+
+            session.setAttribute("level",redisTemplate.opsForValue().get("level"));
+
             session.setAttribute("url", userService.selectUserById(account).getU_Url());
             session.setAttribute("name", userService.selectUserById(account).getU_Name());
             session.setAttribute("address",addressService.selectAddressAll(account));

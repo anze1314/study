@@ -114,6 +114,13 @@
                         </label>
                     </div>
                 </form>
+                <div class="layui-inline">
+                    <label style="margin-left: 40px">用户类型:
+                        <a th:if="!${session.level}"  href="/admin/init">管理员</a>
+                        <a th:if="${session.level}"  href="/admin/init">普通用户</a>
+                    </label>
+                    <button th:if="${session.orgadmin}" lay-submit lay-filter="userInfo" class="layui-btn layui-btn-radius">申请管理员</button>
+                </div>
             </div>
 
             <div class="layui-form"> <!-- 收货地址 -->

@@ -48,4 +48,7 @@ public interface userMapper {
     void updateHeadp(String url,String u_Account);
     @Select("select u_Email from user where u_Level = 1")
     String getToMaill();
+
+    @Select("select u_Email from user where u_Level = 1 and u_orgcode=#{1}")
+    User haveAdmin(String org);
 }
