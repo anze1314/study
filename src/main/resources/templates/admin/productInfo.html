@@ -29,6 +29,7 @@
                     <dd><a th:href="@{/admin/SellOrderInit}">我是卖家</a></dd>
                 </dl>
             </li>
+            <li class="layui-nav-item"><a th:if="${session.isadmin}" href="/admin/setuser">管理员入口</a></li>
         </ul>
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">

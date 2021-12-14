@@ -29,7 +29,11 @@ public class ProductController {
         String account = (String) session.getAttribute("u_Account");
         return "admin/productInfo";
     }
-
+    @RequestMapping("/setuser")
+    public String setUser(HttpSession session, Model m) {
+        String account = (String) session.getAttribute("u_Account");
+        return "admin/setUser";
+    }
     @RequestMapping("/productInfo")
     @ResponseBody
     public BaseResponse productinfo (@RequestParam String page,

@@ -3,8 +3,9 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-    <title>商品管理</title>
+    <title>用戶管理</title>
     <link rel="stylesheet" th:href="@{/layui/css/layui.css}"/>
+    <link rel="stylesheet" th:href="@{/layui/css/login.css}">
     <style type="text/css">
         .layui-table-cell{
             height: auto!important;
@@ -17,8 +18,9 @@
     <div class="layui-header">
         <div class="layui-logo">校园二手物品后台</div>
         <!-- 头部区域（可配合layui已有的水平导航） -->
+
         <ul class="layui-nav layui-layout-left">
-            <li class="layui-nav-item"><a th:if="${session.isadmin}" href="/admin/init">商品管理</a></li>
+            <li class="layui-nav-item"><a th:if="${session.isadmin}"  href="/admin/init">商品管理</a></li>
             <li class="layui-nav-item"><a href="/admin/shoppingCarInit">购物车管理</a></li>
             <li class="layui-nav-item">
                 <a href="javascript:;">订单管理</a>
@@ -27,7 +29,6 @@
                     <dd><a th:href="@{/admin/SellOrderInit}">我是卖家</a></dd>
                 </dl>
             </li>
-
             <li class="layui-nav-item"><a th:if="${session.isadmin}" href="/admin/setuser">管理员入口</a></li>
         </ul>
         <ul class="layui-nav layui-layout-right">
@@ -47,7 +48,6 @@
     <div class="layui-side layui-bg-black">
         <div class="layui-side-scroll">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree"  lay-filter="test">
 
                 <li class="layui-nav-item"><a href="">广告位1</a></li>
@@ -59,7 +59,7 @@
     </div>
 
     <div class="layui-body">
-        <!-- 内容主体区域 -->
+
         <table id="demo" lay-filter="test"></table>
 
     </div>
@@ -78,8 +78,9 @@
     });
 </script>
 <script th:inline="javascript">
-    layui.use('table', function(){
+    layui.use(['table','form'], function(){
         var table = layui.table;
+        const form = layui.form;
         table.on('tool(test)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
             var data = obj.data; //获得当前行数据
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
@@ -89,7 +90,7 @@
             if(layEvent === 'detail'){ //查看
                 layer.confirm('确认查看', function(index){
                     $.ajax({
-                        url: '/admin/detail/info',
+                        url: '/admin/user/info',
                         type: 'POST',
                         data:{p_Id:data.p_Id},
                         success:function (res){
@@ -115,46 +116,95 @@
                     layer.close(index);
                 });
             } else if(layEvent === 'del'){ //删除
-                layer.confirm('确定要下移除该物品吗？', function(index){
+                layer.confirm('确定要删除用户？请确认TA违反了网站定下的五项用户用则，请慎重选择哦', function(index){
                     $.ajax({
-                        url: '/admin/shoppingCardelete',
+                        url: '/admin/user/delete',
                         type: 'POST',
-                        data:{s_Id:data.s_Id},
+                        data:{u_Account:data.u_Account},
                         success:function (res){
                             if(res.code===200) {
                                 tableIns.reload();
-                                layer.msg('移除成功');
+                                layer.msg('删除成功');
                             }
                             else
-                                layer.msg('移除失败');
+                                layer.msg('删除失败');
                         }
                         ,error(error){
-                            layer.msg("请求出错");
+                            layer.msg(error);
                         }
                     });
                     layer.close(index);
                 });
-            } else if (layEvent === 'buy') { //购买
-
-                console.log(data.p_Id);
+            } else if (layEvent === 'edit') { //编辑
+                layer.confirm('确定要修改用户的等级？请确认TA所在区域没有管理员，或者你想撤销TA的管理员身份', function(index){
+                    $.ajax({
+                        url: '/admin/user/rmlevel',
+                        type: 'POST',
+                        data:{u_Account:data.u_Account},
+                        success:function (res){
+                            if(res.code===200) {
+                                tableIns.reload();
+                                layer.msg('更改成功');
+                            }
+                            else
+                                layer.msg('更改失败');
+                        }
+                        ,error(error){
+                            layer.msg(error);
+                        }
+                    });
+                    layer.close(index);
+                });
+            } else if(layEvent === 'LAYTABLE_TIPS'){
+                layer.alert('Hi，头部工具栏扩展的右侧图标。');
+            }else if(layEvent === 'imgUpload'){ // 上传图片
                 layer.open({
                     type: 2,
-                    content: '/buyGoodsInit?p_Id=' + data.p_Id,
-                    area: ['454px','365px'],
-                    title: false,
+                    area: ['740px','375px'],
+                    // resize: false,
+                    content: '/imgUploadInit',
+                    cancel: function (index, layero){
+                        tableIns.reload();
+                    },
                     success: function (layero, index){
                         const body = layer.getChildFrame('body', index);
                         body.find('#p_Id').val(data.p_Id);
-                        body.find('#s_Id').val(data.s_Id);
-                    },
+                        console.log(data.p_Id);
+                    }
+                });
+            }else if(layEvent == 'imgDel'){ // 编辑图片
+                layer.open({
+                    type: 2,
+                    area: ['740px','375px'],
+                    // resize: false,
+                    content: '/imgUpdateInit',
                     cancel: function (index, layero){
                         tableIns.reload();
+                    },
+                    success: function (layero, index){
+                        const body = layer.getChildFrame('body', index);
+                        body.find('#p_Id').val(data.p_Id);
                     }
-                })
-            } else if(layEvent === 'LAYTABLE_TIPS'){
-                layer.alert('Hi，头部工具栏扩展的右侧图标。');
+                });
             }
         });
+        // 监听搜索按钮
+        var $ = layui.$, active = {
+            reload: function(){
+                var demoReload = $('#demoReload');
+
+                table.reload('testReload', {
+                    where: {
+                        p_Name: demoReload.val()
+                    }
+                });
+            }
+        };
+        $('.demoTable .layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
         table.on('toolbar(test)', function(obj){
             const $=layui.$;
             var checkStatus = table.checkStatus(obj.config.id);
@@ -183,19 +233,21 @@
         //第一个实例
         var tableIns = table.render({
             elem: '#demo'
-            ,url: '/admin/shoppingCarAll' //数据接口
+            ,url: '/admin/usersInfo' //数据接口
             ,toolbar: '#toolbarDemo'
             , page: true
             ,limit:10
             ,limits:[10,30,50]
+            , id: 'testReload'
             ,response: {
                 statusCode: 200 //规定成功的状态码，默认：0
             }
             ,cols: [[ //表头
-                {field: 's_Id', title: '编号', sort: true}
-                ,{field: 'p_href', title: '物品图片', templet: "<div><img  src=\"{{ d.p_href }}\"></div>"}
-                ,{field: 'p_Title', title: '物品标题'}
-                ,{field: 'p_Price', title: '价格',sort: true}
+                {field: 'u_Account', title: '用户Id', sort: true}
+                ,{field: 'u_Name', title: '用户姓名',sort: true}
+                ,{field: 'u_Sex', title: '用户性别'}
+                ,{field: 'u_Email', title: '用户邮箱'}
+                ,{field: 'u_Level', title: '用户等级（0普通用户，1管理员）',sort: true}
                 ,{title: '操作', toolbar: '#barDemo'}
             ]]
         });
@@ -211,16 +263,21 @@
         text-align:center;
     }
 </style>
-<script type="text/html" id="barDemo">
-<!--    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>-->
-    <a class="layui-btn layui-btn-xs" lay-event="buy">确认购买</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">移除购物车</a>
+
+<script type="text/html" id="imgBar">
+    <a class="layui-btn layui-btn-xs" lay-event="imgUpload">上传图片</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="imgDel">编辑图片</a>
 </script>
 
-<script type="text/html" id="toolbarDemo">
-    <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="add">发布商品</button>
-    </div>
+<script type="text/html" id="barDemo">
+    <a  th:if="${session.isMax}"  class="layui-btn layui-btn-xs" lay-event="edit">更改用户等级</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
+
+<!--<script type="text/html" id="toolbarDemo">-->
+<!--    <div class="layui-btn-container">-->
+<!--        <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>-->
+<!--    </div>-->
+<!--</script>-->
 </body>
 </html>

@@ -20,7 +20,9 @@
                     <dd><a th:href="@{/admin/SellOrderInit}">我是卖家</a></dd>
                 </dl>
             </li>
+            <li class="layui-nav-item"><a th:if="${session.isadmin}" href="/admin/setuser">管理员入口</a></li>
         </ul>
+
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
                 <a href="javascript:">
@@ -142,7 +144,7 @@
                                             layer.msg('正在修改用户为:' + data.u_Account + '的信息');
                                         }
                                         else {
-                                            layer.msg("更新成功");
+                                            layer.msg("修改成功");
                                             tableIns.reload();
                                         }
                                     }

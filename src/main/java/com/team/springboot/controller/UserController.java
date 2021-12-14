@@ -6,6 +6,7 @@ import com.team.springboot.mapper.UserAddressMapper;
 import com.team.springboot.pojo.*;
 
 import com.team.springboot.service.AddressService;
+import com.team.springboot.service.ProductService;
 import com.team.springboot.service.UserAddressService;
 import com.team.springboot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,8 @@ public class UserController {
     UserService userService;
 
     @Autowired
+    ProductService productService;
+    @Autowired
     AddressService addressService;
     //后台初始化
     @RequestMapping("/userInfo")
@@ -48,7 +51,55 @@ public class UserController {
         m.addAttribute("addressList",addr);
         return "admin/userInfo";
     }
+    @RequestMapping("/user/delete")
+    @ResponseBody
+    public BaseResponse deleteUser(@RequestParam String u_Account){
+        BaseResponse baseResponse = new BaseResponse();
+        User user = userService.selectUserById(u_Account);
 
+        if(user!=null){
+            userService.deleteUser(u_Account);
+        }
+        user = userService.selectUserById(u_Account);
+        if(user==null){
+            baseResponse.setCode(200);
+            baseResponse.setMsg("删除成功");
+        }
+        else{
+            baseResponse.setCode(500);
+            baseResponse.setMsg("删除失败");
+        }
+        return baseResponse;
+    }
+    @RequestMapping("/user/rmlevel")
+    @ResponseBody
+    public BaseResponse rmlevel(@RequestParam String u_Account){
+
+        BaseResponse baseResponse = new BaseResponse();
+        User user = userService.selectUserById(u_Account);
+
+        if(user!=null){
+            if(user.getU_Level().equals("0") && userService.haveAdmin(user.getU_orgcode()) != null){
+                baseResponse.setCode(500);
+                baseResponse.setMsg("该区域有管理员了");
+            }
+            if(user.getU_Level().equals("0") && userService.haveAdmin(user.getU_orgcode()) == null){
+                user.setU_Level("1");
+                userService.updateUser(user);
+                baseResponse.setCode(200);
+                baseResponse.setMsg("更改成功");
+            }
+            else if(user.getU_Level().equals("1")){
+                user.setU_Level("0");
+                userService.updateUser(user);
+                baseResponse.setCode(200);
+                baseResponse.setMsg("更改成功");
+            }
+        }
+
+
+        return baseResponse;
+    }
     // 更新用户信息
     @RequestMapping(value = "/userUpdate", method = {RequestMethod.POST})
     @ResponseBody
@@ -206,6 +257,56 @@ public class UserController {
     public String quit(HttpSession session){
         session.invalidate();
         return "redirect:/login";
+    }
+    @RequestMapping("/user/info")
+    @ResponseBody
+    public BaseResponse detail (@RequestParam String u_Id,
+                                HttpSession session){
+        User user=userService.selectUserById(u_Id);
+        BaseResponse baseResponse = new BaseResponse();
+        if(user!=null) {
+            session.setAttribute("user",user);
+            baseResponse.setCode(200);
+            baseResponse.setMsg("请求成功");
+            baseResponse.setData(user);
+        }
+        else{
+            baseResponse.setCode(500);
+            baseResponse.setMsg("请求失败");
+        }
+        return baseResponse;
+    }
+
+    @RequestMapping("/usersInfo")
+    @ResponseBody
+    public BaseResponse userInfo (@RequestParam String page,
+                                     @RequestParam String limit,
+                                     HttpServletRequest request){
+        String p_Name=request.getParameter("p_Name");
+        BaseResponse<List<User>> baseResponse = new BaseResponse<>();
+        List<User> users = null;
+        HttpSession session =request.getSession();
+
+        users = userService.selectUserAll(StringUtils.isNullOrEmpty(page) ? 1 : Integer.valueOf(page),
+           StringUtils.isNullOrEmpty(limit) ? 10 : Integer.valueOf(limit));
+           baseResponse.setCount(productService.selectCount());
+        //分页查询每页10条
+//        if (session.getAttribute("u_Account").equals("admin")) {
+//            users = userService.selectUserAll(StringUtils.isNullOrEmpty(page) ? 1 : Integer.valueOf(page),
+//                    StringUtils.isNullOrEmpty(limit) ? 10 : Integer.valueOf(limit));
+//            baseResponse.setCount(productService.selectCount());
+//        }
+        //判断product是否为空
+        if(users!=null) {
+            baseResponse.setData(users);
+            baseResponse.setCode(200);
+            baseResponse.setMsg("请求成功");
+        }
+        else{
+            baseResponse.setCode(500);
+            baseResponse.setMsg("请求出错");
+        }
+        return baseResponse;
     }
 
 }

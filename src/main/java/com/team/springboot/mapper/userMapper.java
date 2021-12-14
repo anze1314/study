@@ -12,7 +12,7 @@ public interface userMapper {
     @Select("select * from user where u_Account = #{u_Account}") //用于查询一个User实体 -wyq
     User selectUserById(String u_Account);
 
-    @Update("update user set u_Name = #{u_Name}, u_Email = #{u_Email}, u_Sex = #{u_Sex}, u_Phone = #{u_Phone} where u_Account = #{u_Account}")
+    @Update("update user set u_Name = #{u_Name}, u_Email = #{u_Email}, u_Sex = #{u_Sex}, u_Phone = #{u_Phone} ,u_Level = #{u_Level} where u_Account = #{u_Account}")
     void updateUser(User u); // 用于更新User实体信息 -wyq
 
     @Update("update user set u_Password = #{newPassword} where u_Account = #{u_Account}")

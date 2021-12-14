@@ -21,6 +21,7 @@
                     <dd><a th:href="@{/admin/SellOrderInit}">我是卖家</a></dd>
                 </dl>
             </li>
+            <li class="layui-nav-item"><a th:if="${session.isadmin}" href="/admin/setuser">管理员入口</a></li>
         </ul>
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
@@ -116,8 +117,8 @@
                 </form>
                 <div class="layui-inline">
                     <label style="margin-left: 40px">用户类型:
-                        <a th:if="!${session.level}"  href="/admin/init">管理员</a>
-                        <a th:if="${session.level}"  href="/admin/init">普通用户</a>
+                        <a th:if="${session.isadmin}"  href="/admin/init">管理员</a>
+                        <a th:if="!${session.isadmin}"  href="/admin/init">普通用户</a>
                     </label>
                     <button th:if="${session.orgadmin}" lay-submit lay-filter="userInfo" class="layui-btn layui-btn-radius">申请管理员</button>
                 </div>

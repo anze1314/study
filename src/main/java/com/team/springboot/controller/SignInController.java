@@ -18,10 +18,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Controller
 public class SignInController {
@@ -57,10 +54,17 @@ public class SignInController {
             if(userService.selectUserById(account).getU_Level() .equals("1")){
                 session.setAttribute("isadmin", "yes");
             }
+            if(userService.selectUserById(account).getU_Level() .equals("2")){
+                session.setAttribute("isadmin", "yes");
+                session.setAttribute("isMax", "yes");
+
+            }
             if(userService.haveAdmin(userService.selectUserById(account).getU_orgcode()) == null){
                 session.setAttribute("orgadmin","1");
             }
             redisTemplate.opsForValue().set("level",userService.selectUserById(account).getU_Level());
+
+
 
             session.setAttribute("level",redisTemplate.opsForValue().get("level"));
 
