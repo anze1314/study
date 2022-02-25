@@ -23,6 +23,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
         productCategoryMapper.insertProductCategory(productCategory);
     }
 
+    //hello world
     @Override
     public List<ProductCategory> selectProductCategorys(int page, int limit) {
         return productCategoryMapper.selectProductCategorys((page-1)*limit,limit);
