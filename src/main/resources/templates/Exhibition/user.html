@@ -166,16 +166,15 @@
                                   您所在的校园拥有下列运营点:</br>
                                 </div>
                                 <div id="" v-for="result in results" th:if="${session.u_Account}" style="text-align: center">
-                                    <!--                                    <p th:text="${session.address.getA_Address1()}"></p></br>-->
-                                    <!--                                    <p th:text="${session.address.getA_Address2()}"></p></br>-->
-                                    <!--                                    <p th:text="${session.address.getA_Address3()}"></p></br>-->
-                                    <!--                                    <p th:text="${session.address.getA_Address4()}"></p></br>-->
                                     <p > {{result}}</p></br>
-
                                 </div>
                                 <div style="text-align: center">
-                                   <p th:if="!${session.u_Account}">请您先登录哦！！</p>
+                                    <p th:if="!${session.u_Account}">请您先登录哦！！</p>
                                 </div>
+<!--                                <div style="text-align: center">-->
+<!--                                   <p th:if="!${session.u_Account}" th:text="${session.address.getA_Address1()}">请您先登录哦！！</p>-->
+<!--                                    -->
+<!--                                </div>-->
                             </div>
                             <li class="li"><a href=""  @click.prevent="searchre" class="add_cart" lay-submit lay-filter="address">运营点详细地址</a> <i th:if="!${session.u_Account}">请先登录</i></li>
                         </div>
@@ -258,15 +257,15 @@
     new Vue({
         el:'#app',
         data:{
-            results: [] //结果
+            results: ['湖南工商大学北校区经营点','湖南工商大学萃雅经营点','湖南工商大学贤德经营点','湖南工商大学岭南经营点'] //结果
         },
         methods:{
             searchre(){
                 const a = '<%=session.getAttribute("u_Account")%>';
 
-                axios.get('/admin/address').then(response=>{
-                    this.results=response.data;
-                })
+                // axios.get('/admin/address').then(response=>{
+                //     this.results=response.data;
+                // })
             }
         }
 
