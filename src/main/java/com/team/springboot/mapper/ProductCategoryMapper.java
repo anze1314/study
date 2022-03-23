@@ -24,7 +24,7 @@ public interface ProductCategoryMapper {
     @Select("select p_href, p_Id,p_Account,p_Name,c_Name,p_Title,p_Price from product inner join category on product.c_Id=category.c_Id where product.p_state = 0 and (p_Title like #{2} OR p_Name like #{2}) limit #{0}, #{1}")
     List<ProductCategory>selectProductCategorysByp_name(int page, int limit,String p_Name);
 
-    @Select("select p_href, p_Id,p_Account,p_Name,c_Name,p_Title,p_Price from product inner join Category on product.c_Id=category.c_Id where product.p_state = 0 and (p_Title like #{2} OR p_Name like #{2}) AND p_Account = #{3} limit #{0}, #{1}")
+    @Select("select p_href, p_Id,p_Account,p_Name,c_Name,p_Title,p_Price from product inner join category on product.c_Id=category.c_Id where product.p_state = 0 and (p_Title like #{2} OR p_Name like #{2}) AND p_Account = #{3} limit #{0}, #{1}")
     List<ProductCategory>selectProductCategorysByp_nameAndaccount(int page, int limit,String p_Name,String p_Account);
 
     @Select("select c_Name from category")
