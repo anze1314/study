@@ -142,7 +142,7 @@
                     layer.close(index);
                 });
             } else if (layEvent === 'edit') { //编辑
-                layer.confirm('确认查看', function(index){
+                layer.confirm('确认编辑', function(index){
                     var count=0;
                     $.ajax({
                         url: '/admin/edit/info',
@@ -168,7 +168,7 @@
                                 });
                             }
                             else
-                                layer.msg('查看失败');
+                                layer.msg('修改失败');
                         }
                         ,error(error){
                             layer.msg(error);
@@ -271,6 +271,7 @@
                 ,{field: 'c_Name', title: '物品类别'}
                 ,{field: 'p_Title', title: '物品标题'}
                 ,{field: 'p_Price', title: '价格',sort: true}
+                ,{field:'p_state',title: '状态<br>(0:未卖出 1:订单中 2:已卖出)'}
                 ,{field: 'imgLoad',title:'图片操作',toolbar: "#imgBar"}
                 ,{title: '操作', toolbar: '#barDemo'}
             ]]
@@ -290,7 +291,7 @@
 
 <script type="text/html" id="imgBar">
     <a class="layui-btn layui-btn-xs" lay-event="imgUpload">上传图片</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="imgDel">编辑图片</a>
+
 </script>
 
 <script type="text/html" id="barDemo">

@@ -58,8 +58,8 @@ public class ImgUploadController {
             return baseResponse;
         }
 
-        if(!p.getP_href().equals("0") && p.getP_href1().equals("0")){ // p_href不为0，p_href1为0，插入p_href1
-            productService.setHref1(href,Integer.valueOf(p_Id));
+        if(!p.getP_href().equals("0") ){ // p_href不为0，p_href1为0，插入p_href1
+            productService.setHref(href,Integer.valueOf(p_Id));
             baseResponse = uploadFunction(realPath, file, fileName);
             return baseResponse;
         }
