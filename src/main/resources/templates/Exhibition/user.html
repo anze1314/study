@@ -22,7 +22,7 @@
 <body>
 <div class="web-shop">
     <!-- 头部导航条 -->
-    <div class="header">
+    <div class="header layui-bg-black">
         <div class="container">
             <ul class="nav">
                 <li>
@@ -136,16 +136,11 @@
                             </form>
 
                             <div class="search-choose">
-                                <a href="">热门商品：</a>
-                                <a href="/search?search=书">书籍</a>
-                                <a href="/search?search=电动车">小绵羊</a>
-                                <a href="/search?search=自行车">bike</a>
-                                <a href="/search?search=试卷">往年期末试卷</a>
-                                <a href="/search?search=衣服">全新衣服</a>
-                                <a href="/search?search=床上桌">迷你书桌</a>
-                                <a href="/search?search=电脑">笔记本</a>
+                                <a  href="">热门商品：</a>
+                                <div  th:each="h:${hotlist}">
+                                    <a  href="" th:text="${h}"></a>
+                                </div>
 
-                                <a href="/search?search=耳机">蓝牙耳机</a>
                             </div>
                         </div>
                         <div class="search-code">
@@ -155,11 +150,11 @@
                         </div>
                     </div>
                     <!-- 导航栏 -->
-                    <ul class="nav">
-                        <li class="left-nav">其余服务</li>
-                        <li class="li"><a href="https://blog.csdn.net/qq_44816011?spm=1001.2101.3001.5343">作者简介</a> </li>
-                        <li class="li"><a href="https://www.baidu.com">合作网站</a></li>
-                        <li class="li">|</li>
+                    <ul class="nav layui-bg-cyan">
+                        <li class="left-nav layui-bg-green">其余服务</li>
+                        <li class="li layui-bg-cyan"><a href="https://blog.csdn.net/qq_44816011?spm=1001.2101.3001.5343">作者简介</a> </li>
+                        <li class="li layui-bg-cyan"><a href="https://www.baidu.com">合作网站</a></li>
+                        <li class="li layui-bg-cyan">|</li>
                         <div id="app" >
                             <div class="row col-sm-12" style="display:none;" id="show_div2">
                                 <div style="text-align: center">
@@ -180,13 +175,15 @@
 
                                 </div>
                             </div>
-                            <li class="li"><a href=""  @click.prevent="searchre" class="add_cart" lay-submit lay-filter="address">运营点详细地址</a> <i th:if="!${session.u_Account}">请先登录</i></li>
+                            <li class="li layui-bg-cyan"><a href=""  @click.prevent="searchre" class="add_cart" lay-submit lay-filter="address">运营点详细地址</a> <i th:if="!${session.u_Account}"><p style="color: aliceblue">请先登录</p></i></li>
                         </div>
 
-                        <li class="li"> <a href="/search?search=lucky">今日幸运物品</a></li>
-                        <li class="li">|</li>
-                        <li class="li"><a href="" class="add_cart" lay-submit lay-filter="saysay">留言板</a> <i th:if="!${session.u_Account}">请先登录</i></li>
+                        <li class="li layui-bg-cyan"> <a href="/search?search=lucky">今日幸运物品</a></li>
+                        <li class="li layui-bg-cyan">|</li>
+                        <li class="li layui-bg-cyan"><a href="" class="add_cart" lay-submit lay-filter="saysay">留言板</a> <i th:if="!${session.u_Account}" ><p style="color: aliceblue">请先登录</p></i></li>
 
+                        <li  class="li layui-bg-cyan"> </li>
+<!--                        <li  class="li layui-bg-cyan"></li>-->
                     </ul>
     <!--            &lt;!&ndash; 图片展示区 &ndash;&gt;-->
     <!--            <div class="layui-body">-->
@@ -237,13 +234,13 @@
 
 <div class="row col-sm-12" style="display:none;" id="show_div">
 
-    <form action="http://www.laz421.xyz:8090/admin/advice" method="post">
+    <form th:action="@{/admin/advice}" method="post">
         <div class="form-group">
             <div style="text-align: center">
-                <label class="col-sm-3 control-label" style="text-align: center;font-size: 20px;color: black">请输入您的宝贵意见：</label>
+                <label id="txt1" class="col-sm-3 control-label" style="text-align: center;font-size: 20px;color: black">请输入您的宝贵意见：</label>
             </div>
             <div class="col-sm-8" style="text-align: center">
-                <input id="thing" name="thing" minlength="2" type="text" style="width: 300px;height: 200px;" required="" aria-required="true">
+                <input onblur="f1()" id="thing" name="thing" minlength="2" type="text" style="width: 300px;height: 200px;" required="" aria-required="true">
             </div>
         </div>
         <div class="form-group" style="text-align: center">
@@ -254,7 +251,25 @@
     </form>
 
 </div>
+<script>
 
+    function  f1(){
+        var oto=document.getElementById("thing");
+        var str=oto.value ;
+        for(var i=0;i<str.length;i++){
+            str=str.replace("法轮功","***");
+            str=str.replace("缅甸","***");
+            str=str.replace("促销","***");
+            str=str.replace("他妈的","***");
+            str=str.replace("警告","***");
+            str=str.replace("去你大爷","***");
+
+
+
+        }//遍历输入的字符串，出现汪汪汪即替换为***
+        oto.value=str;//把新的字符串传给第二本文本框
+    }
+</script>
 <script th:src="@{/vue/axios.min.js}"></script>
 <script th:src="@{/vue/vue.min.js}"></script>
 <script>

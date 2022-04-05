@@ -21,4 +21,6 @@ public interface ProductCategoryService {
     List<ProductCategory>selectFive();
     //更新状态
     void updateProduct (int  productCategoryId,int state);
+
+    List<String> getHot();
 }

@@ -44,32 +44,18 @@ public class ImgUploadController {
         String currentName = System.currentTimeMillis() + file.getOriginalFilename(); //为图片拼接时间戳，防止重命名
         String fileName = realPath + "/" + currentName; // 传递到文件上传函数中真实的服务器文件夹地址
         String href = "/images/product/" + currentName; // 添加到数据库中的图片href
+
         Product p = productService.imgHref(Integer.valueOf(p_Id));//根据所编辑的物品Id，查询所有图片地址
+        productService.setHref(href,Integer.valueOf(p_Id));
+        baseResponse = uploadFunction(realPath, file, fileName);
+        return baseResponse;
 
-        if(p.getP_href().equals("0") && p.getP_href1().equals("0")){ // p_href p_href1皆为0 默认插入p_href
-            productService.setHref(href,Integer.valueOf(p_Id));
-            baseResponse = uploadFunction(realPath, file, fileName);
-            return baseResponse;
-        }
-
-        if(p.getP_href().equals("0") && !p.getP_href1().equals("0")){ // p_href为0，p_href1不为0，插入p_href
-            productService.setHref(href,Integer.valueOf(p_Id));
-            baseResponse = uploadFunction(realPath, file, fileName);
-            return baseResponse;
-        }
-
-        if(!p.getP_href().equals("0") ){ // p_href不为0，p_href1为0，插入p_href1
-            productService.setHref(href,Integer.valueOf(p_Id));
-            baseResponse = uploadFunction(realPath, file, fileName);
-            return baseResponse;
-        }
-
-        //两张图片已插满，不能插入
-        baseResponse = new BaseResponse<Integer>();
-        baseResponse.setCode(500);
-        baseResponse.setMsg("添加图片失败！请删除原有图片");
-        baseResponse.setSrc("");
-        return  baseResponse;
+//        //两张图片已插满，不能插入
+//        baseResponse = new BaseResponse<Integer>();
+//        baseResponse.setCode(500);
+//        baseResponse.setMsg("添加图片失败！请删除原有图片");
+//        baseResponse.setSrc("");
+//        return  baseResponse;
 
     }
 

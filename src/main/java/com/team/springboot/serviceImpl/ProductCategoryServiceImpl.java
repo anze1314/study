@@ -72,4 +72,9 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
     public void updateProduct(int  productCategoryId,int state) {
         productCategoryMapper.updateProductCategory(productCategoryId,state);
     }
+
+    @Override
+    public List<String> getHot() {
+        return productCategoryMapper.getHot();
+    }
 }

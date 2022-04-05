@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -26,6 +27,9 @@ public class showController {
         List<ProductCategory> list = productCategoryService.selectProductAll();
         PageInfo<ProductCategory> pageInfo = new PageInfo<ProductCategory>(list,pageSize);
         m.addAttribute("productList",pageInfo);
+        List<String> hotList = new ArrayList<String>();
+        hotList=productCategoryService.getHot();
+        m.addAttribute("hotlist",hotList);
         return "Exhibition/user";
     }
     //前台搜索功能

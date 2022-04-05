@@ -3,10 +3,13 @@ package com.team.springboot.controller;
 import com.team.springboot.pojo.Address;
 import com.team.springboot.pojo.BaseResponse;
 import com.team.springboot.pojo.Order;
+import com.team.springboot.pojo.SensitiveWord;
 import com.team.springboot.service.AddressService;
 import com.team.springboot.service.OrderService;
 import com.team.springboot.service.ProductCategoryService;
 import com.team.springboot.service.UserService;
+import com.team.springboot.utils.SensitiveWordEngine;
+import com.team.springboot.utils.SensitiveWordInit;
 import com.team.springboot.utils.mailUtill;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -21,6 +24,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/admin")
@@ -275,13 +280,27 @@ public class OrderController {
         try {
             String decodeStr = URLDecoder.decode(thing, "utf-8");
 
+            // 初始化敏感词库对象
+            SensitiveWordInit sensitiveWordInit = new SensitiveWordInit();
+            // 从数据库中获取敏感词对象集合（调用的方法来自Dao层，此方法是service层的实现类）
+            List<SensitiveWord> sensitiveWords = orderService.findbad();
+            // 构建敏感词库
+            Map sensitiveWordMap = sensitiveWordInit.initKeyWord(sensitiveWords);
+            // 传入SensitiveWordEngine类中的敏感词库
+            SensitiveWordEngine.sensitiveWordMap = sensitiveWordMap;
+            // 得到敏感词有哪些，传入2表示获取所有敏感词
+            Set<String> set = SensitiveWordEngine.getSensitiveWord(decodeStr, 2);
+            //替换敏感词
+            String str = SensitiveWordEngine.replaceSensitiveWord(decodeStr, 2, "*");
+
+
             SimpleMailMessage message = new SimpleMailMessage();
             message.setSubject("留言");
             message.setFrom("2383353360@qq.com");
 //            message.setTo("2383353360@qq.com");
             //获取管理员邮箱
             message.setTo(userService.getToMail());
-            message.setText(decodeStr);
+            message.setText(str);
             javaMailSender.send(message);
 
         } catch (UnsupportedEncodingException e) {

@@ -2,6 +2,7 @@ package com.team.springboot.service;
 
 import com.team.springboot.pojo.Address;
 import com.team.springboot.pojo.Order;
+import com.team.springboot.pojo.SensitiveWord;
 
 import java.util.List;
 
@@ -19,4 +20,6 @@ public interface OrderService {
     List<Order> selectOrderAndProductSellBySearchName(String account,String SearchName, int page, int limit);
     int selectOrderCount();
     void insertOne(Order o);
+
+    List<SensitiveWord> findbad();
 }

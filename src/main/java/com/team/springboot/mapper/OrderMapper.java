@@ -2,6 +2,7 @@ package com.team.springboot.mapper;
 
 import com.team.springboot.pojo.Address;
 import com.team.springboot.pojo.Order;
+import com.team.springboot.pojo.SensitiveWord;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -46,4 +47,7 @@ public interface OrderMapper {
 
     @Insert("insert into order2(o_Id, o_ItemId, o_Buyer, o_Seller, o_Baddress, o_Status) values(#{o_Id},#{o_ItemId}, #{o_Buyer}, #{o_Seller}, #{o_Baddress}, #{o_Status})")
     void insertOne(Order o);
+
+    @Select("select * from demand_sensitive_word")
+    List<SensitiveWord> findbad();
 }

@@ -3,6 +3,7 @@ package com.team.springboot.serviceImpl;
 import com.team.springboot.mapper.OrderMapper;
 import com.team.springboot.pojo.Address;
 import com.team.springboot.pojo.Order;
+import com.team.springboot.pojo.SensitiveWord;
 import com.team.springboot.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -72,5 +73,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void insertOne(Order o) {
         orderMapper.insertOne(o);
+    }
+
+    @Override
+    public List<SensitiveWord> findbad() {
+        return orderMapper.findbad();
     }
 }
