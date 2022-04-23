@@ -42,6 +42,8 @@ public interface ProductCategoryMapper {
     @Update("update product set p_state = #{1} where p_Id = #{0}")
     void updateProductCategory( int productCategoryId,int state);
 
-    @Select("select t2.c_Name from (select c_Id , count(*)  co from product group by c_Id order by count(*) desc) t1 left join category t2 on t1.c_Id = t2.c_Id limit 5;")
+    @Select("select t2.c_Name from (select c_Id , count(*)  co from product group by c_Id order by count(*) desc,c_Id desc) t1 left join category t2 on t1.c_Id = t2.c_Id limit 5;")
     List<String> getHot();
+    @Select("select c.c_Name from order2 o left join product p on o.o_ItemId=p.p_Id left join category c on c.c_Id=p.c_Id where o.o_Buyer = #{0} group by c.c_Id limit 5;")
+    List<String> getMyHot(String id);
 }

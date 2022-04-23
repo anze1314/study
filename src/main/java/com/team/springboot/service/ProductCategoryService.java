@@ -23,4 +23,6 @@ public interface ProductCategoryService {
     void updateProduct (int  productCategoryId,int state);
 
     List<String> getHot();
+
+   List<String> getMyHot(String sid);
 }

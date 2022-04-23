@@ -77,4 +77,10 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
     public List<String> getHot() {
         return productCategoryMapper.getHot();
     }
+
+    @Override
+    public List<String> getMyHot(String sid) {
+        return productCategoryMapper.getMyHot(sid);
+    }
+
 }

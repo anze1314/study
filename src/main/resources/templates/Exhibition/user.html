@@ -7,15 +7,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>校园二手交易平台</title>
+
+
+
+    <script type="text/javascript"   th:src="@{/vue/vue.min.js}"></script>
+    <script type="text/javascript"   th:src="@{/vue/axios.min.js}"></script>
+
     <!-- 引入layui css -->
     <link rel="stylesheet" type="text/css" href="https://www.layuicdn.com/layui-v2.5.6/css/layui.css" />
     <!-- 引入layui js -->
     <script src="https://www.layuicdn.com/layui-v2.5.6/layui.js"></script>
 
-    <link rel="stylesheet" th:href="@{/layui/css/layui.js}">
+
+    <script src= th:href="@{layui/css/user.css"></script>
+
+
     <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
 
-    <link rel="stylesheet" th:href="@{layui/user.js}">
+
     <link rel="stylesheet" th:href="@{layui/css/user.css}">
 </head>
 
@@ -270,8 +279,7 @@
         oto.value=str;//把新的字符串传给第二本文本框
     }
 </script>
-<script th:src="@{/vue/axios.min.js}"></script>
-<script th:src="@{/vue/vue.min.js}"></script>
+
 <script>
     new Vue({
         el:'#app',
@@ -340,7 +348,7 @@
         var element = layui.element;
     });
 </script>
-<script src= th:href="@{layui/css/user.css}"></script>
+
 
 </body>
 
